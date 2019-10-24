@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+
+    <context:component-scan base-package="com.study.oa.dao"/>
+    <bean id="dataSources" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/oa?useSSL=false&amp;characterEncoding=utf-8&amp;useUnicode=true"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSources"/>
+        <property name="typeAliasesPackage" value="com.study.oa.entity"/>
+        <property name="mapperLocations" value="classpath*:com.study.oa.dao/*.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="sqlSessionFactoryBeanName" value="sessionFactory"/>
+    <property name="basePackage" value="com.study.oa.dao"/>
+</bean>
+    <!--使用mybatis命名空间自动发现映射器-->
+    <!--<mybatis:scan base-package="om.study.oa.dao"/>-->
+</beans>
